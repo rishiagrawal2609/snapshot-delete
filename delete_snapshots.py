@@ -17,7 +17,7 @@ cutoff_date = datetime.strptime(args.cutoff_date, "%Y-%m-%dT%H:%M:%SZ")
 filter_tag_key = args.filter_tag_key
 filter_tag_value = args.filter_tag_value
 
-ec2 = boto3.client('ec2')
+ec2 = boto3.client('ec2',region_name='us-east-1')
 
 print(f"Fetching snapshots older than {cutoff_date}...")
 
