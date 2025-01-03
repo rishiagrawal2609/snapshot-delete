@@ -51,6 +51,8 @@ snapshot_ids=$(aws ec2 describe-snapshots \
     --query "Snapshots[?StartTime<'${local.cutoff_date_local}'].SnapshotId" \
     --output text)
 
+echo "$snapshot_ids"
+
 echo "Found snapshots: $snapshot_ids"
 
 if [ -z "$snapshot_ids" ]; then
@@ -58,15 +60,15 @@ if [ -z "$snapshot_ids" ]; then
     exit 0
 fi
 
-for snapshot_id in $snapshot_ids; do
-    echo "Attempting to delete snapshot: $snapshot_id"
-    aws ec2 delete-snapshot --snapshot-id $snapshot_id
-    if [ $? -eq 0 ]; then
-        echo "Successfully deleted snapshot: $snapshot_id"
-    else
-        echo "Failed to delete snapshot: $snapshot_id"
-    fi
-done
+# for snapshot_id in $snapshot_ids; do
+#     echo "Attempting to delete snapshot: $snapshot_id"
+#     aws ec2 delete-snapshot --snapshot-id $snapshot_id
+#     if [ $? -eq 0 ]; then
+#         echo "Successfully deleted snapshot: $snapshot_id"
+#     else
+#         echo "Failed to delete snapshot: $snapshot_id"
+#     fi
+# done
 EOF
   }
 }
@@ -89,6 +91,7 @@ output "snapshot_ids" {
 output "cutoff_date" {
   value = local.cutoff_date_local
 }
+
 
 
 
