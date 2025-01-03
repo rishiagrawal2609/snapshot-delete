@@ -16,8 +16,7 @@ data "aws_instance" "filtered_instances" {
 }
 
 locals {
-  cutoff_date_local = "2025-01-03T12:00:00Z"
-  #timeadd(timestamp(), "${-(var.cutoff_days * 86400)}s")
+  cutoff_date_local = timeadd(timestamp(), "${-(var.cutoff_days * 86400)}s")
 }
 
 resource "aws_ebs_snapshot" "snapshots" {
@@ -43,7 +42,7 @@ resource "null_resource" "delete_old_snapshots" {
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 python get-pip.py
 python -m pip install boto3
-python3 delete_snapshots.py ${local.cutoff_date_local} ${var.filter_tag_key} ${var.filter_tag_value}
+python3 delete_snapshots.py ${local.cutoff_date_local} ${var.filter_tag_key} ${var.filter_tag_value} ${var.region}
 EOF
   }
 }

@@ -9,6 +9,7 @@ parser = argparse.ArgumentParser(description='Delete AWS EC2 snapshots older tha
 parser.add_argument('cutoff_date', type=str, help='The cutoff date in the format YYYY-MM-DDTHH:MM:SSZ')
 parser.add_argument('filter_tag_key', type=str, help='The tag key to filter snapshots')
 parser.add_argument('filter_tag_value', type=str, help='The tag value to filter snapshots')
+parser.add_argument('region', type=str, default='us-east-1', help='The AWS region to use (default: us-east-1)')
 
 args = parser.parse_args()
 
@@ -17,7 +18,7 @@ cutoff_date = datetime.strptime(args.cutoff_date, "%Y-%m-%dT%H:%M:%SZ")
 filter_tag_key = args.filter_tag_key
 filter_tag_value = args.filter_tag_value
 
-ec2 = boto3.client('ec2',region_name='us-east-1')
+ec2 = boto3.client('ec2',region_name=args.region)
 
 print(f"Fetching snapshots older than {cutoff_date}...")
 

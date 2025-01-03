@@ -12,3 +12,8 @@ variable "cutoff_days" {
   type        = number
   description = "Number of days before snapshots are considered for deletion"
 }
+variable "region" {
+  type        = string
+  description = "The AWS region to use"
+  
+}
