@@ -40,10 +40,7 @@ resource "null_resource" "delete_old_snapshots" {
     interpreter = [ "bash","-c" ]
     command = <<-EOF
 #!/bin/bash
-if ! python3 -c "import boto3" &> /dev/null; then
-    echo "boto3 is not installed. Please install it manually."
-    exit 1
-fi
+python3 -m pip install boto3
 python3 delete_snapshots.py ${local.cutoff_date_local} ${var.filter_tag_key} ${var.filter_tag_value}
 EOF
   }
