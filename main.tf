@@ -46,7 +46,10 @@ filter_tag_key=${var.filter_tag_key}       # Replace with your tag key
 filter_tag_value=${var.filter_tag_value}   # Replace with your tag value
 
 echo "Fetching snapshots older than ${local.cutoff_date_local}..."
-snapshot_ids=$()
+snapshot_ids=$(aws ec2 describe-snapshots \
+    --filters "Name=tag:${var.filter_tag_key},Values=${var.filter_tag_value}" \
+    --query "Snapshots[?StartTime<'${local.cutoff_date_local}'].SnapshotId" \
+    --output text)
 
 echo "$snapshot_ids"
 
