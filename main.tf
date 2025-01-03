@@ -40,7 +40,7 @@ resource "null_resource" "delete_old_snapshots" {
     interpreter = [ "bash","-c" ]
     command = <<-EOF
 #!/bin/bash
-pip install boto3
+pip3 install boto3
 python3 delete_snapshots.py ${local.cutoff_date_local} ${var.filter_tag_key} ${var.filter_tag_value}
 EOF
   }
