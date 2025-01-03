@@ -16,7 +16,8 @@ data "aws_instance" "filtered_instances" {
 }
 
 locals {
-  cutoff_date_local = timeadd(timestamp(), "${-(var.cutoff_days * 86400)}s")
+  cutoff_date_local = "2025-01-03T12:00:00Z"
+  #timeadd(timestamp(), "${-(var.cutoff_days * 86400)}s")
 }
 
 resource "aws_ebs_snapshot" "snapshots" {
