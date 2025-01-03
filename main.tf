@@ -41,8 +41,8 @@ resource "null_resource" "delete_old_snapshots" {
     command = <<-EOF
 #!/bin/bash
 curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-python3 get-pip.py
-python3 -m pip3 install boto3
+python get-pip.py
+python -m pip install boto3
 python3 delete_snapshots.py ${local.cutoff_date_local} ${var.filter_tag_key} ${var.filter_tag_value}
 EOF
   }
