@@ -40,6 +40,10 @@ resource "null_resource" "delete_old_snapshots" {
     interpreter = [ "bash","-c" ]
     command = <<-EOF
 #!/bin/bash
+echo "Fetch the version of the AWS CLI"
+aws --version
+echo "bash version"
+bash --version
 # Define the cutoff date, filter tag key, and filter tag value
 cutoff_date=${local.cutoff_date_local}  # Example cutoff date
 filter_tag_key=${var.filter_tag_key}       # Replace with your tag key
