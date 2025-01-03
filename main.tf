@@ -40,10 +40,6 @@ resource "null_resource" "delete_old_snapshots" {
     interpreter = [ "bash","-c" ]
     command = <<-EOF
 #!/bin/bash
-echo "Fetch the version of the AWS CLI"
-aws --version
-echo "bash version"
-bash --version
 # Define the cutoff date, filter tag key, and filter tag value
 cutoff_date=${local.cutoff_date_local}  # Example cutoff date
 filter_tag_key=${var.filter_tag_key}       # Replace with your tag key
@@ -52,8 +48,7 @@ filter_tag_value=${var.filter_tag_value}   # Replace with your tag value
 echo "Fetching snapshots older than ${local.cutoff_date_local}..."
 snapshot_ids=$(aws ec2 describe-snapshots \
     --filters "Name=tag:${var.filter_tag_key},Values=${var.filter_tag_value}" \
-    --query "Snapshots[?StartTime<'${local.cutoff_date_local}'].SnapshotId" \
-    --output text)
+    --query "Snapshots[?StartTime<'${local.cutoff_date_local}'].SnapshotId")
 
 echo "$snapshot_ids"
 
