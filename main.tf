@@ -40,34 +40,7 @@ resource "null_resource" "delete_old_snapshots" {
     interpreter = [ "bash","-c" ]
     command = <<-EOF
 #!/bin/bash
-# Define the cutoff date, filter tag key, and filter tag value
-cutoff_date=${local.cutoff_date_local}  # Example cutoff date
-filter_tag_key=${var.filter_tag_key}       # Replace with your tag key
-filter_tag_value=${var.filter_tag_value}   # Replace with your tag value
-
-echo "Fetching snapshots older than ${local.cutoff_date_local}..."
-snapshot_ids=$(aws ec2 describe-snapshots \
-    --filters "Name=tag:${var.filter_tag_key},Values=${var.filter_tag_value}" \
-    --query "Snapshots[?StartTime<'${local.cutoff_date_local}'].SnapshotId")
-
-echo "$snapshot_ids"
-
-echo "Found snapshots: $snapshot_ids"
-
-if [ -z "$snapshot_ids" ]; then
-    echo "No snapshots found to delete."
-    exit 0
-fi
-
-# for snapshot_id in $snapshot_ids; do
-#     echo "Attempting to delete snapshot: $snapshot_id"
-#     aws ec2 delete-snapshot --snapshot-id $snapshot_id
-#     if [ $? -eq 0 ]; then
-#         echo "Successfully deleted snapshot: $snapshot_id"
-#     else
-#         echo "Failed to delete snapshot: $snapshot_id"
-#     fi
-# done
+python delete_snapshots.py ${local.cutoff_date_local} ${var.filter_tag_key} ${var.filter_tag_value}
 EOF
   }
 }
