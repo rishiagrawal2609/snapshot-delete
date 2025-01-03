@@ -44,7 +44,7 @@ if not snapshot_ids:
 for snapshot_id in snapshot_ids:
     print(f"Attempting to delete snapshot: {snapshot_id}")
     try:
-        #ec2.delete_snapshot(SnapshotId=snapshot_id)
+        ec2.delete_snapshot(SnapshotId=snapshot_id)
         print(f"Successfully deleted snapshot: {snapshot_id}")
     except Exception as e:
         print(f"Failed to delete snapshot: {snapshot_id}. Error: {e}")
