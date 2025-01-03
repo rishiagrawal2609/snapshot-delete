@@ -39,7 +39,7 @@ resource "null_resource" "delete_old_snapshots" {
   provisioner "local-exec" {
     interpreter = [ "bash","-c" ]
     command = <<EOT
-      aws ec2 describe-snapshots \
+      add_output aws ec2 describe-snapshots \
         --filters "Name=start-time,Values=lt:2025-01-03T12:00:00Z" \
         | jq -r '.Snapshots[] | .SnapshotId'
     EOT
